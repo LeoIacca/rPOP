@@ -35,6 +35,8 @@ mdir=spm_select(1,'dir', 'Select output directory (tables/logs will be saved her
 % Select directory in which the templates are stored and prepare them
 tdir=spm_select(1,'dir', 'Select directory storing templates');
 
+tic % Start counting the time after last user action
+
 tfbball=cellstr(strcat(tdir,'/','Template_FBB_all.nii'));
 tfbbpos=cellstr(strcat(tdir,'/','Template_FBB_pos.nii'));
 tfbbneg=cellstr(strcat(tdir,'/','Template_FBB_neg.nii'));
@@ -49,21 +51,32 @@ tfluteneg=cellstr(strcat(tdir,'/','Template_FLUTE_neg.nii'));
 
 warptempl=vertcat(tfbball,tfbbpos,tfbbneg,tfbpall,tfbppos,tfbpneg,tfluteall,tflutepos,tfluteneg);                                                                     
 
-
 % Create empty objects to store FWHM estimations and warnings/errors, if any
 dbests={};
 dbwarn={};
+
+% ask the user whether they want to set the origin manually for each image,
+% do nothing or automatically resetting to the center of the image
+
+orchc={'Do not reset origin','Set origin to center of image'};
+         [oropt,~] = listdlg('PromptString',[{'Please select an option:'} {''}],...
+        'SelectionMode','single',...
+        'ListString',orchc);
 
 % "For loop" going through the scans
 
 for i=1:size(vols_mod1_spm,1)
 
+    if oropt==2
+    
    % Reset origin to center of the image, copied from from http://www.nemotos.net/scripts/acpc_coreg.m
       file = deblank(vols_mod1(i,:));
       st.vol = spm_vol(file);
       vs = st.vol.mat\eye(4);
       vs(1:3,4) = (st.vol.dim+1)/2;
       spm_get_space(st.vol.fname,inv(vs));
+      
+    end
 
    % Warp the image through the Old Normalization tool in SPM12
     tempimg=vols_mod1_spm(i,1);
@@ -201,7 +214,7 @@ dbests.Properties.VariableNames([7]) = cellstr(strcat('FWHMfilterappliedz'));
 dbests.Properties.VariableNames([8]) = cellstr(strcat('AFNIEstimationRerunMod'));
 
 % print database with timestamp
-filename = strcat(mdir,sprintf('/PETOnlyProcessing_%s.csv', datestr(now,'mm-dd-yyyy_HH-MM-SS')));
+filename = strcat(mdir,sprintf('/rPOP_%s.csv', datestr(now,'mm-dd-yyyy_HH-MM-SS')));
 writetable(dbests,filename,'WriteRowNames',false);
 
 % In case there was at least one error/warning, print the error database
@@ -210,10 +223,11 @@ if size(dbwarn,1)>0
     fprintf(2,'*****\nThere was at least 1 warning. A log was saved, check that out!\n*****\n');
     dbwarnT.Properties.VariableNames([1]) = cellstr(strcat('Warning'));
 
-filename2 = strcat(mdir,sprintf('/PETOnlyProcessingWarnings_%s.csv', datestr(now,'mm-dd-yyyy_HH-MM-SS')));
+filename2 = strcat(mdir,sprintf('/rPOPWarnings_%s.csv', datestr(now,'mm-dd-yyyy_HH-MM-SS')));
 writetable(dbwarnT,filename2,'WriteRowNames',false);
 
 end
 
 disp('Done!');
+toc % Print total time needed
 clear
