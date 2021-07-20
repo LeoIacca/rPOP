@@ -245,14 +245,14 @@ for i=1:size(vols_mod1_spm,1)
 end
         
 % Database cleaning/renaming of variables
-dbests.Properties.VariableNames(1) = cellstr(strcat('Filename'));
-dbests.Properties.VariableNames(2) = cellstr(strcat('EstimatedFWHMx'));
-dbests.Properties.VariableNames(3) = cellstr(strcat('EstimatedFWHMy'));
-dbests.Properties.VariableNames(4) = cellstr(strcat('EstimatedFWHMz'));
-dbests.Properties.VariableNames(5) = cellstr(strcat('FWHMfilterappliedx'));
-dbests.Properties.VariableNames(6) = cellstr(strcat('FWHMfilterappliedy'));
-dbests.Properties.VariableNames(7) = cellstr(strcat('FWHMfilterappliedz'));
-dbests.Properties.VariableNames(8) = cellstr(strcat('AFNIEstimationRerunMod'));
+dbests.Properties.VariableNames(1) = cellstr('Filename');
+dbests.Properties.VariableNames(2) = cellstr('EstimatedFWHMx');
+dbests.Properties.VariableNames(3) = cellstr('EstimatedFWHMy');
+dbests.Properties.VariableNames(4) = cellstr('EstimatedFWHMz');
+dbests.Properties.VariableNames(5) = cellstr('FWHMfilterappliedx');
+dbests.Properties.VariableNames(6) = cellstr('FWHMfilterappliedy');
+dbests.Properties.VariableNames(7) = cellstr('FWHMfilterappliedz');
+dbests.Properties.VariableNames(8) = cellstr('AFNIEstimationRerunMod');
 
 % print database with timestamp
 filename = strcat(mdir,sprintf('/rPOP_%s.csv', datestr(now,'mm-dd-yyyy_HH-MM-SS')));
