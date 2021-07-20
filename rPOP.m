@@ -19,6 +19,9 @@
 % For each radiotracer dataset, three templates were generated, i.e. "all" with all the images, "pos" with the positive scans and "neg" with
 % negative scans (based on centiloids quantification). 
 
+% An additional option requires the user to choose whether to use the 9
+% templates validated approach or use tracer-specific Templates.
+
 % The script in this form needs a 3D nifti file as the only input. After warping, the script takes the image to an estimated FWHM 10mm3, based on
 % a subset of IDEAS amyloid-PET data where 10mm3 was the 80th percentile of the FWHM estimation across the scans out-of-the-scanners. 
 
@@ -33,23 +36,29 @@ vols_mod1_spm=cellstr(vols_mod1);
 mdir=spm_select(1,'dir', 'Select output directory (tables/logs will be saved here)');
 
 % Select directory in which the templates are stored and prepare them
-tdir=spm_select(1,'dir', 'Select directory storing templates');
+% Assuming used templates are those distributed
 
-tic % Start counting the time after last user action
+rpopath=which('rPOP');
+[popdir,~,~]=spm_fileparts(rpopath);
+tdir=[popdir, '/templates/'];
 
-tfbball=cellstr(strcat(tdir,'/','Template_FBB_all.nii'));
-tfbbpos=cellstr(strcat(tdir,'/','Template_FBB_pos.nii'));
-tfbbneg=cellstr(strcat(tdir,'/','Template_FBB_neg.nii'));
+tfbball=cellstr([tdir,'Template_FBB_all.nii']);
+tfbbpos=cellstr([tdir,'Template_FBB_pos.nii']);
+tfbbneg=cellstr([tdir,'Template_FBB_neg.nii']);
 
-tfbpall=cellstr(strcat(tdir,'/','Template_FBP_all.nii'));
-tfbppos=cellstr(strcat(tdir,'/','Template_FBP_pos.nii'));
-tfbpneg=cellstr(strcat(tdir,'/','Template_FBP_neg.nii'));
+tfbpall=cellstr([tdir,'Template_FBP_all.nii']);
+tfbppos=cellstr([tdir,'Template_FBP_pos.nii']);
+tfbpneg=cellstr([tdir,'Template_FBP_neg.nii']);
 
-tfluteall=cellstr(strcat(tdir,'/','Template_FLUTE_all.nii'));
-tflutepos=cellstr(strcat(tdir,'/','Template_FLUTE_pos.nii'));
-tfluteneg=cellstr(strcat(tdir,'/','Template_FLUTE_neg.nii'));
+tfluteall=cellstr([tdir,'Template_FLUTE_all.nii']);
+tflutepos=cellstr([tdir,'Template_FLUTE_pos.nii']);
+tfluteneg=cellstr([tdir,'Template_FLUTE_neg.nii']);
 
-warptempl=vertcat(tfbball,tfbbpos,tfbbneg,tfbpall,tfbppos,tfbpneg,tfluteall,tflutepos,tfluteneg);                                                                     
+warptempl_fbp=vertcat(tfbpall,tfbppos,tfbpneg);                                                                     
+warptempl_fbb=vertcat(tfbball,tfbbpos,tfbbneg);                                                                     
+warptempl_flute=vertcat(tfluteall,tflutepos,tfluteneg);                                                                     
+
+warptempl_all=vertcat(tfbball,tfbbpos,tfbbneg,tfbpall,tfbppos,tfbpneg,tfluteall,tflutepos,tfluteneg);                                                                     
 
 % Create empty objects to store FWHM estimations and warnings/errors, if any
 dbests={};
@@ -58,11 +67,43 @@ dbwarn={};
 % ask the user whether they want to set the origin manually for each image,
 % do nothing or automatically resetting to the center of the image
 
-orchc={'Do not reset origin','Set origin to center of image'};
-         [oropt,~] = listdlg('PromptString',[{'Please select an option:'} {''}],...
-        'SelectionMode','single',...
-        'ListString',orchc);
+oropt = input(['\nPlease select an option. Will be applied to all images.' ,...
+        '\n     [1] Do not reset origin',...
+        '\n     [2] Set origin to center of image',...
+        '\n     --> ']);
+    
+    if oropt~=1 && oropt~=2
+       clear;
+       error('Origin option selection was invalid. Must be 1 or 2. Please re-run rPOP.'); 
+    end
+    
+% ask the user whether they want to use all templates (validated approach)
+% or prefer using tracer-specific templates
 
+tpopt = input(['\nPlease select a Warping Template Option:' ,...
+        '\n     [1] Tracer-independent, use all Templates (Validated Approach)',...
+        '\n     [2] Tracer-specific, use 18F-Florbetaben Templates',...
+        '\n     [3] Tracer-specific, use 18F-Florbetapir Templates',...
+        '\n     [4] Tracer-specific, use 18F-Flutemetamol Templates',...
+        '\n     --> ']);
+    
+    if tpopt~=1 && tpopt~=2 && tpopt~=3 && tpopt~=4
+       clear;
+       error('Template option selection was invalid. Must be 1, 2, 3 or 4. Please re-run rPOP.'); 
+    end
+    
+    if tpopt==1 
+        warptempl=warptempl_all;
+    elseif tpopt==2
+        warptempl=warptempl_fbb;
+    elseif tpopt==3
+        warptempl=warptempl_fbp;
+    elseif tpopt==3
+        warptempl=warptempl_flute;
+    end
+
+tic % Start counting the time after last user action
+    
 % "For loop" going through the scans
 
 for i=1:size(vols_mod1_spm,1)
@@ -204,14 +245,14 @@ for i=1:size(vols_mod1_spm,1)
 end
         
 % Database cleaning/renaming of variables
-dbests.Properties.VariableNames([1]) = cellstr(strcat('Filename'));
-dbests.Properties.VariableNames([2]) = cellstr(strcat('EstimatedFWHMx'));
-dbests.Properties.VariableNames([3]) = cellstr(strcat('EstimatedFWHMy'));
-dbests.Properties.VariableNames([4]) = cellstr(strcat('EstimatedFWHMz'));
-dbests.Properties.VariableNames([5]) = cellstr(strcat('FWHMfilterappliedx'));
-dbests.Properties.VariableNames([6]) = cellstr(strcat('FWHMfilterappliedy'));
-dbests.Properties.VariableNames([7]) = cellstr(strcat('FWHMfilterappliedz'));
-dbests.Properties.VariableNames([8]) = cellstr(strcat('AFNIEstimationRerunMod'));
+dbests.Properties.VariableNames(1) = cellstr(strcat('Filename'));
+dbests.Properties.VariableNames(2) = cellstr(strcat('EstimatedFWHMx'));
+dbests.Properties.VariableNames(3) = cellstr(strcat('EstimatedFWHMy'));
+dbests.Properties.VariableNames(4) = cellstr(strcat('EstimatedFWHMz'));
+dbests.Properties.VariableNames(5) = cellstr(strcat('FWHMfilterappliedx'));
+dbests.Properties.VariableNames(6) = cellstr(strcat('FWHMfilterappliedy'));
+dbests.Properties.VariableNames(7) = cellstr(strcat('FWHMfilterappliedz'));
+dbests.Properties.VariableNames(8) = cellstr(strcat('AFNIEstimationRerunMod'));
 
 % print database with timestamp
 filename = strcat(mdir,sprintf('/rPOP_%s.csv', datestr(now,'mm-dd-yyyy_HH-MM-SS')));
@@ -221,7 +262,7 @@ writetable(dbests,filename,'WriteRowNames',false);
 if size(dbwarn,1)>0
 
     fprintf(2,'*****\nThere was at least 1 warning. A log was saved, check that out!\n*****\n');
-    dbwarnT.Properties.VariableNames([1]) = cellstr(strcat('Warning'));
+    dbwarnT.Properties.VariableNames(1) = cellstr(strcat('Warning'));
 
 filename2 = strcat(mdir,sprintf('/rPOPWarnings_%s.csv', datestr(now,'mm-dd-yyyy_HH-MM-SS')));
 writetable(dbwarnT,filename2,'WriteRowNames',false);
