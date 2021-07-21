@@ -24,7 +24,7 @@ To double check availability of rPOP in your search path, just type:
 
 If all the dependencies have been successfully installed, rPOP will run automatically asking only few options to the user.
 
-You can start rPOP by running 
+You can start rPOP by first opening MATLAB and then typing in the console: 
 
 > rPOP
 
