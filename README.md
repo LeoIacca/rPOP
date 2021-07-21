@@ -1,6 +1,10 @@
 # Welcome to robust PET-Only Processing, aka rPOP!
 In this repository you will find everything you need to run rPOP.
 
+## Licensing
+
+### rPOP is only distributed for academic/research purposes, it is not intended for any clinical or diagnostic purposes. rPOP comes WITHOUT ANY WARRANTY. THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
+
 ## Installation
 
 rPOP has three main dependencies:
@@ -86,5 +90,3 @@ In the paper, we validated a quantification approach requiring:
 ## Warning to rPOP users!
 
 - Any change in the rPOP methods described above, e.g. changing the target resolution, using different templates, using different ROIs for quantification, automatically invalidated the Centiloid conversion formulas described in the paper. For any of these changes, users will be required to run their own Centiloid pipeline as described in Klunk et al., 2015 Alzheimer's & Dementia
-
-# rPOP is not intended for clinical use and is only distributed for research purposed WITHOUT ANY WARRANTY. THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
