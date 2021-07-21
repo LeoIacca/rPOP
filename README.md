@@ -3,7 +3,9 @@ In this repository you will find everything you need to run rPOP.
 
 ## Licensing
 
-### rPOP is only distributed for academic/research purposes, it is not intended for any clinical or diagnostic purposes. rPOP comes WITHOUT ANY WARRANTY. THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
+### rPOP is only distributed for academic/research purposes, it is not intended for any clinical or diagnostic purposes. 
+#### rPOP comes WITHOUT ANY WARRANTY. 
+#### THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
 
 ## Installation
 
@@ -46,6 +48,8 @@ You can start rPOP by first opening MATLAB and then typing in the console:
 - Set origin to center of image
 
 Your choice will be applied to all the images you inputed in the previous step.
+
+The code performing the reset of the origin is from <b>F. Yamashita</b> and is part of an ac/pc co-registration script (parent function available at: http://www.nemotos.net/scripts/acpc_coreg.m)
 
 ### You will be then required to choose a Warping Templates option four choices:
 
