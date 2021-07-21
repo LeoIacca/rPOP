@@ -65,6 +65,25 @@ The user will be able to choose also tracer-specific templates options. The warp
 
 ### Other outputs:
 - A database, with naming convention rPOP_mm-dd-yyyy_HH-MM-SS.csv, storing for each inputed image the calculated FWHM and the estimated filter to be applied to reach 10mm3
-- Optional - a Warning database will be produced in case at least one image had an estimated FWHM resolution >25. In that case 3dFWHMx is re-run without the -2difMAD flag, which in some instances helped. In that case, a flag is also added to the main database described above. This instance is very rare and only happened during first rPOP iterations, never happened in the validation datasets.
+- Optional - a Warning database with naming convention rPOPWarnings_mm-dd-yyyy_HH-MM-SS.csv will be produced in case at least one image had an estimated FWHM resolution >25. In that case 3dFWHMx is re-run without the -2difMAD flag, which in some instances helped. In that case, a flag is also added to the main database described above. This instance is very rare and only happened during first rPOP iterations, never happened in the validation datasets.
 
+## QC 
 
+### The user is required to run essentially two main quality control checks with their software/method of choice:
+- Qualitative evaluation of the warping. Size, shape(s), orientation of the w and sw images must match MNI standard space. 
+- Qualitative evaluation of goodness of fit of the ROIs which will be used for quantification (Extremely important). 
+
+## Quantification
+
+Any rPOP user will have the ability to run any quantification approach they prefer on either the w or the sw images as required. 
+
+In the paper, we validated a quantification approach requiring:
+
+- Extraction of average binding values from the GAAIN volumes of interest, i.e. ctx with whole cerebellum as reference. The ROIs are also redistributed in the GitHUB repo after being resliced to match dimensions of images produced by rPOP. 
+- Calculation of Standardized Uptake Value Ratio (SUVR) with the ctx/wc ratio
+- Conversion to Centiloids using tracer-specific formulas as described in the paper. 
+
+## Warning to rPOP users!
+
+- rPOP is not intended for clinical use and is only distributed for research purposed without warranty.
+- Any change in the rPOP methods described above, e.g. changing the target resolution, using different templates, using different ROIs for quantification, automatically invalidated the Centiloid conversion formulas described in the paper. For any of these changes, users will be required to run their own Centiloid pipeline as described in Klunk et al., 2015 Alzheimer's & Dementia
