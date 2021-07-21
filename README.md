@@ -85,5 +85,6 @@ In the paper, we validated a quantification approach requiring:
 
 ## Warning to rPOP users!
 
-- rPOP is not intended for clinical use and is only distributed for research purposed WITHOUT ANY WARRANTY. THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
 - Any change in the rPOP methods described above, e.g. changing the target resolution, using different templates, using different ROIs for quantification, automatically invalidated the Centiloid conversion formulas described in the paper. For any of these changes, users will be required to run their own Centiloid pipeline as described in Klunk et al., 2015 Alzheimer's & Dementia
+
+# rPOP is not intended for clinical use and is only distributed for research purposed WITHOUT ANY WARRANTY. THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
