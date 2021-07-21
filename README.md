@@ -61,6 +61,8 @@ The code performing the reset of the origin is from <b>F. Yamashita</b> and is p
 rPOP performance and Centiloids conversion formulas as described in Iaccarino et al., have been validated using the first option (Tracer-independent).
 The user will be able to choose also tracer-specific templates options. The warping and differential smoothing are expected to be very similar, but the user will have to perform their own cross-validation to obtain Centiloid conversion formulas. 
 
+Details on template generation are available in Iaccarino et al., and templates can also be viewed at Neurovault: https://neurovault.org/collections/CPHVNXDQ/
+
 ### rPOPs runs serially, so the time required to complete the job will depend on how many scans you input.
 
 ## rPOP Output
