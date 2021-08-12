@@ -1,32 +1,13 @@
-%%% Script to Process Images with a PET-only approach %%%
-%%% Leonardo.Iaccarino@ucsf.edu - December 2020 %%%
+%%% Welcome to rPOP! %%%
+%%% See documentation on Github -> %%%
+%%% Please send comments or questions to Leonardo.Iaccarino@ucsf.edu %%%
+%%% rPOP v1.0 - August 2021 %%%
 
-%%% The correct execution of this script depends on the availability of the AFNI Neuroimaging suite software on the machine on which it is running
-%%% (https://afni.nimh.nih.gov/) and the availability of SPM12 (https://www.fil.ion.ucl.ac.uk/spm/software/spm12/)
-
-% The AFNI function used to estimate smoothness if 3dFWHMx https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/programs/3dFWHMx_sphx.html
-% Additional flags used here are: 
-% -automask: letting the function generate the mask itself to then estimate FWHM
-% -out: to output the txt file
-% -2difMAD: handles at least partially spatial structure in the image
-
-%%% The current version of the script runs using 9 Templates (3 per Radiotracer) generated using publicly available data:
-
-% Florbetapir: 100 random subjects from ADNI, 50 positive and 50 negative (http://adni.loni.usc.edu/)
-% Florbetaben: 100 random subjects from ADNI, 50 positive and 50 negative (http://adni.loni.usc.edu/)
-% Flutemetamol: 74 subjects from GAAIN dataset, 50 positive and 24 negative (http://www.gaain.org/centiloid-project).
-
-% For each radiotracer dataset, three templates were generated, i.e. "all" with all the images, "pos" with the positive scans and "neg" with
-% negative scans (based on centiloids quantification). 
-
-% An additional option requires the user to choose whether to use the 9
-% templates validated approach or use tracer-specific Templates.
-
-% The script in this form needs a 3D nifti file as the only input. After warping, the script takes the image to an estimated FWHM 10mm3, based on
-% a subset of IDEAS amyloid-PET data where 10mm3 was the 80th percentile of the FWHM estimation across the scans out-of-the-scanners. 
-
-% Avoid missing the AFNI installation on the machine, to be modified if needed
-setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
+fprintf(1,'\n\n********** Welcome to rPOP! **********\n');
+fprintf(1,'rPOP is dependent on:\n*1. Statistical Parametric Mapping toolbox (SPM, https://www.fil.ion.ucl.ac.uk/spm/software/spm12/)\n*2. AFNI Neuroimaging Suite (https://afni.nimh.nih.gov/)\n*3. MATLAB (https://www.mathworks.com/products/matlab.html)\n');
+fprintf(1,'The origin reset code employed in rPOP is from F. Yamashita and is part of an ac/pc co-registration script \n(parent function available at: http://www.nemotos.net/scripts/acpc_coreg.m)\n');
+fprintf(2,'Press a key to acknowledge and continue with rPOP:\n');
+pause;
 
 % Select 3D nifti volumes to be processed
 vols_mod1 = spm_select(Inf,'image', 'Select images to warp');  
