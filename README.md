@@ -4,8 +4,7 @@ In this repository you will find everything you need to run rPOP.
 ## Licensing
 
 ### rPOP is only distributed for academic/research purposes, it is not intended for any clinical or diagnostic purposes. 
-#### rPOP comes WITHOUT ANY WARRANTY. 
-#### THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
+#### With rPOP, THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
 
 ## Installation
 
@@ -13,7 +12,7 @@ rPOP has three main dependencies:
 
 -	MATLAB (proprietary commercial software). rPOP has been validated with MATLAB R2018b (OS: macOS High Sierra) and R2020b (OS: macOS Mojave) 
 -	Statistical Parametric Mapping v12 (SPM12) toolbox (publicly available) for MATLAB, available at  https://www.fil.ion.ucl.ac.uk/spm/software/spm12/ 
--	Analysis of Functional NeuroImages (AFNI) software suite (publicly available), available at https://afni.nimh.nih.gov/
+-	Analysis of Functional NeuroImages (AFNI) software suite (publicly available), available at https://afni.nimh.nih.gov/. rPOP has been validated with AFNI_20.3.03 (Dec  7 2020)
 
 Prior to running rPOP, make sure you have both SPM12 ready to run on your MATLAB version and AFNI fully installed.
 
@@ -22,9 +21,11 @@ In MATLAB, add paths to all the subfolders with
 
 > addpath(genpath('/your/path/to/rPOP-master/'))
 
-To double check availability of rPOP in your search path, just type:
+To double check availability of rPOP in your MATLAN search path, just type:
 
 > which rPOP
+
+in your MATLAB console. 
 
 ## Running rPOP
 
@@ -34,6 +35,8 @@ You can start rPOP by first opening MATLAB and then typing in the console:
 
 > rPOP
 
+A disclaimer will pop-up with some info about rPOP. Press any key to acknowledge and continue. 
+
 ### You will be first asked to select PET images to process. Images must meet the requirements below
 
 - NIfTI files must be 3D. 4D Scans are not supported.
@@ -41,6 +44,16 @@ You can start rPOP by first opening MATLAB and then typing in the console:
 - Scans must have been performed with either of three FDA-approved amyloid-PET radiotracers, i.e. 18F-Florbetapir, 18F-Florbetaben or 18F-Flutemetamol.
 
 ### You will be then asked for a master output directory. All logs will be saved here.
+
+### You will be then asked to locate the 3dFWHMx executable 
+
+On a macOS system, after installation you can find the location of 3dFWHMx by typing
+
+> which 3dFWHMx
+
+in your terminal. It should look something like 
+
+> /Users/myusername/abin/3dFWHMx
 
 ### You will be then required to choose an option regarding the setting of the image origin, with two choices:
 
@@ -96,3 +109,7 @@ In the paper, we validated a quantification approach requiring:
 ## Warning to rPOP users!
 
 - Any change in the rPOP methods described above, e.g. changing the target resolution, using different templates, using different ROIs for quantification, automatically invalidated the Centiloid conversion formulas described in the paper. For any of these changes, users will be required to run their own Centiloid pipeline as described in Klunk et al., 2015 Alzheimer's & Dementia
+
+## Replication dataset
+
+A database "ADNIReplicationData.csv" can be found in the rPOP repository and can be used to replicate numbers and estimations generated in the study. The dataset includes N=200 random image data from our N=1518 ADNI dataset (100 per tracer), with included a dictionary file. Users can download the corresponding images from ADNI (publicly available) and test their rPOP setup before proceeding with the analyses. Average binding values and estimated FWHMs should be nearly identical to those available in the database.
