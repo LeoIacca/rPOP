@@ -6,6 +6,8 @@
 fprintf(1,'\n\n********** Welcome to rPOP! **********\n');
 fprintf(1,'rPOP is dependent on:\n*1. Statistical Parametric Mapping toolbox (SPM, https://www.fil.ion.ucl.ac.uk/spm/software/spm12/)\n*2. AFNI Neuroimaging Suite (https://afni.nimh.nih.gov/)\n*3. MATLAB (https://www.mathworks.com/products/matlab.html)\n');
 fprintf(1,'The origin reset code employed in rPOP is from F. Yamashita and is part of an ac/pc co-registration script \n(parent function available at: http://www.nemotos.net/scripts/acpc_coreg.m)\n');
+fprintf(2,'*** rPOP is only distributed for academic/research purposes, it is not intended for any clinical or diagnostic purposes.\n');
+fprintf(2,'*** With rPOP, THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.\n');
 fprintf(2,'Press a key to acknowledge and continue with rPOP:\n');
 pause;
 

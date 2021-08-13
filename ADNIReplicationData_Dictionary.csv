@@ -1,0 +1,16 @@
+﻿Var,Description
+RID,ADNI RID
+SubjectID,ADNI Subject ID
+Step2_ImageID,"ImageID linked to the Step 2 preprocessed image ""Co-registered, Averaged"". Can be used in LONI to directly download the image"
+avg_ctx_voi_bin,Average binding within the GAAIN ctx voi
+avg_wc_voi_bin,Average binding within the GAAIN wc voi
+NeocorticalSUVR,Ratio between avg ctx/ avg wc binding values
+Centiloids,Converted SUVR based on validate formulas
+EstimatedFWHMx,AFNI 3dFWHMx estimation on x plane
+EstimatedFWHMy,AFNI 3dFWHMx estimation on y plane
+EstimatedFWHMz,AFNI 3dFWHMx estimation on z plane
+FWHMfilterappliedx,Differential smoothing filter calculated to reach ~10mm on the x plane
+FWHMfilterappliedy,Differential smoothing filter calculated to reach ~10mm on the y plane
+FWHMfilterappliedz,Differential smoothing filter calculated to reach ~10mm on the z plane
+AFNIEstimationRerunMod,Flag for re-run of 3dFWHMx in case of overestimation
+EstimatedFWHMaverage,Average of AFNI 3dFWHMx estimations across planes
