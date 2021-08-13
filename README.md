@@ -76,6 +76,19 @@ The user will be able to choose also tracer-specific templates options. The warp
 
 Details on template generation are available in Iaccarino et al., and templates can also be viewed at Neurovault: https://neurovault.org/collections/CPHVNXDQ/
 
+### Differential smoothing in rPOP
+
+Details on rPOP differential smoothing approach can be found in Iaccarino et al.. rPOP employs an AFNI function, 3dFWHMx, to estimate FWHM of the warped 3D PET scan provided as input. The estimation is performed with the following flags:
+
+-automask: Generating brain mask automatically to select voxels used for the FWHM estimation
+-2difMAD: Used to estimate FWHM in the 3D file and take into account intrinsic structure (see details in the function documentation)
+
+Using the -2difMAD option highly increased the accuracy of the 3dFWHMx FWHM estimation when compared to known effective resolution. When running, it is likely 2dFWHMx will also display an error like:
+
+> ERROR: largest ACF found is 0.518093 -- too big for model fit!
+
+The function will nevertheless output the txt file with the appropriate FWHM estimation. This seems to be a bug related to the -2difMAD option (see a discussion here: https://github.com/poldracklab/mriqc/issues/677). If anyone has additional inputs or comments regarding this please let me know. 
+
 ### rPOPs runs serially, so the time required to complete the job will depend on how many scans you input.
 
 ## rPOP Output
@@ -88,7 +101,7 @@ Details on template generation are available in Iaccarino et al., and templates 
 
 ### Other outputs:
 - A database, with naming convention rPOP_mm-dd-yyyy_HH-MM-SS.csv, storing for each inputed image the calculated FWHM and the estimated filter to be applied to reach 10mm3
-- Optional - a Warning database with naming convention rPOPWarnings_mm-dd-yyyy_HH-MM-SS.csv will be produced in case at least one image had an estimated FWHM resolution >25. In that case 3dFWHMx is re-run without the -2difMAD flag, which in some instances helped. In that case, a flag is also added to the main database described above. This instance is very rare and only happened during first rPOP iterations, never happened in the validation datasets.
+- Optional - a Warning database with naming convention rPOPWarnings_mm-dd-yyyy_HH-MM-SS.csv will be produced in case at least one image had an estimated FWHM resolution >25 on any of the planes. In that case 3dFWHMx is re-run without the -2difMAD flag, which in some instances helped. In that case, a flag is also added to the main database described above. This instance is very rare and only happened during first rPOP iterations, never happened in the validation datasets.
 
 ## QC 
 
