@@ -12,7 +12,7 @@ rPOP has three main dependencies:
 
 -	MATLAB (proprietary commercial software). rPOP has been validated with MATLAB R2018b (OS: macOS High Sierra) and R2020b (OS: macOS Mojave) 
 -	Statistical Parametric Mapping v12 (SPM12) toolbox (publicly available) for MATLAB, available at  https://www.fil.ion.ucl.ac.uk/spm/software/spm12/ 
--	Analysis of Functional NeuroImages (AFNI) software suite (publicly available), available at https://afni.nimh.nih.gov/
+-	Analysis of Functional NeuroImages (AFNI) software suite (publicly available), available at https://afni.nimh.nih.gov/. rPOP has been validated with AFNI_20.3.03 (Dec  7 2020)
 
 Prior to running rPOP, make sure you have both SPM12 ready to run on your MATLAB version and AFNI fully installed.
 
@@ -21,9 +21,11 @@ In MATLAB, add paths to all the subfolders with
 
 > addpath(genpath('/your/path/to/rPOP-master/'))
 
-To double check availability of rPOP in your search path, just type:
+To double check availability of rPOP in your MATLAN search path, just type:
 
 > which rPOP
+
+in your MATLAB console. 
 
 ## Running rPOP
 
@@ -32,6 +34,8 @@ If all the dependencies have been successfully installed, rPOP will run automati
 You can start rPOP by first opening MATLAB and then typing in the console: 
 
 > rPOP
+
+A disclaimer will pop-up with some info about rPOP. Press any key to acknowledge and continue. 
 
 ### You will be first asked to select PET images to process. Images must meet the requirements below
 
@@ -47,7 +51,9 @@ On a macOS system, after installation you can find the location of 3dFWHMx by ty
 
 > which 3dFWHMx
 
-in your terminal. It should look something like /Users/myusername/abin/3dFWHMx
+in your terminal. It should look something like 
+
+> /Users/myusername/abin/3dFWHMx
 
 ### You will be then required to choose an option regarding the setting of the image origin, with two choices:
 
