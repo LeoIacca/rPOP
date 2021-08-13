@@ -80,8 +80,8 @@ Details on template generation are available in Iaccarino et al., and templates 
 
 Details on rPOP differential smoothing approach can be found in Iaccarino et al.. rPOP employs an AFNI function, 3dFWHMx, to estimate FWHM of the warped 3D PET scan provided as input. The estimation is performed with the following flags:
 
--automask: Generating brain mask automatically to select voxels used for the FWHM estimation
--2difMAD: Used to estimate FWHM in the 3D file and take into account intrinsic structure (see details in the function documentation)
+- automask: Generating brain mask automatically to select voxels used for the FWHM estimation
+- 2difMAD: Used to estimate FWHM in the 3D file and take into account intrinsic structure (see details in the function documentation)
 
 Using the -2difMAD option highly increased the accuracy of the 3dFWHMx FWHM estimation when compared to known effective resolution. When running, it is likely 2dFWHMx will also display an error like:
 
