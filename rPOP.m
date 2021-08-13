@@ -10,14 +10,15 @@ fprintf(2,'Press a key to acknowledge and continue with rPOP:\n');
 pause;
 
 % Select 3D nifti volumes to be processed
-vols_mod1 = spm_select(Inf,'image', 'Select images to warp');  
-vols_mod1_spm=cellstr(vols_mod1); 
+vols = spm_select(Inf,'image', 'Select AC PET to process');  
 
 % Select output directory
 mdir=spm_select(1,'dir', 'Select output directory (tables/logs will be saved here)');
 
-% Select directory in which the templates are stored and prepare them
-% Assuming used templates are those distributed
+% Locate 3dFWHMx function in the user's system
+afnifx = spm_select(1,'any', 'Select 3dFWHMx executable');  
+
+% Looking for the templates distributed with rPOP
 
 rpopath=which('rPOP');
 [popdir,~,~]=spm_fileparts(rpopath);
@@ -41,13 +42,11 @@ warptempl_flute=vertcat(tfluteall,tflutepos,tfluteneg);
 
 warptempl_all=vertcat(tfbball,tfbbpos,tfbbneg,tfbpall,tfbppos,tfbpneg,tfluteall,tflutepos,tfluteneg);                                                                     
 
-% Create empty objects to store FWHM estimations and warnings/errors, if any
+% Create empty arrays to store FWHM estimations and warnings/errors, if any
 dbests={};
 dbwarn={};
 
-% ask the user whether they want to set the origin manually for each image,
-% do nothing or automatically resetting to the center of the image
-
+% Input option for origin resetting
 oropt = input(['\nPlease select an option. Will be applied to all images.' ,...
         '\n     [1] Do not reset origin',...
         '\n     [2] Set origin to center of image',...
@@ -58,14 +57,12 @@ oropt = input(['\nPlease select an option. Will be applied to all images.' ,...
        error('Origin option selection was invalid. Must be 1 or 2. Please re-run rPOP.'); 
     end
     
-% ask the user whether they want to use all templates (validated approach)
-% or prefer using tracer-specific templates
-
+% Input template choice option
 tpopt = input(['\nPlease select a Warping Template Option:' ,...
         '\n     [1] Tracer-independent, use all Templates (Validated Approach)',...
-        '\n     [2] Tracer-specific, use 18F-Florbetaben Templates',...
-        '\n     [3] Tracer-specific, use 18F-Florbetapir Templates',...
-        '\n     [4] Tracer-specific, use 18F-Flutemetamol Templates',...
+        '\n     [2] Tracer-specific, use 18F-florbetaben Templates',...
+        '\n     [3] Tracer-specific, use 18F-florbetapir Templates',...
+        '\n     [4] Tracer-specific, use 18F-flutemetamol Templates',...
         '\n     --> ']);
     
     if tpopt~=1 && tpopt~=2 && tpopt~=3 && tpopt~=4
@@ -82,26 +79,24 @@ tpopt = input(['\nPlease select a Warping Template Option:' ,...
     elseif tpopt==3
         warptempl=warptempl_flute;
     end
-
-tic % Start counting the time after last user action
     
-% "For loop" going through the scans
+% Process the PET scans serially
 
-for i=1:size(vols_mod1_spm,1)
+for i=1:size(vols,1)
 
-    if oropt==2
-    
-   % Reset origin to center of the image, copied from from http://www.nemotos.net/scripts/acpc_coreg.m
-      file = deblank(vols_mod1(i,:));
+    if oropt==2 % Resetting of the origin is required
+      file = deblank(vols(i,:));
       st.vol = spm_vol(file);
       vs = st.vol.mat\eye(4);
       vs(1:3,4) = (st.vol.dim+1)/2;
       spm_get_space(st.vol.fname,inv(vs));
-      
     end
 
    % Warp the image through the Old Normalization tool in SPM12
-    tempimg=vols_mod1_spm(i,1);
+   % Bounding box size increased
+    
+    tempimg=cellstr(vols(i,:));
+    
     spm('defaults','PET');
     matlabbatch{1}.spm.tools.oldnorm.estwrite.subj.source = tempimg;
     matlabbatch{1}.spm.tools.oldnorm.estwrite.subj.wtsrc = '';
@@ -128,7 +123,7 @@ for i=1:size(vols_mod1_spm,1)
     [p,f,~]=spm_fileparts(char(tempimg));
     wtempimg=strcat(p,'/w',f);
     txtfwhm=strcat(wtempimg,'_automask.txt');
-    fwhmest_cmd=char(strcat('/Users/liaccarino/abin/3dFWHMx -automask -out',{' '},txtfwhm,{' '},'-2difMAD',{' '}, '-input',{' '}, strcat(wtempimg,'.nii')));
+    fwhmest_cmd=char(strcat(afnifx ,{' '},'-automask -2difMAD',{' '},'-input',{' '}, strcat(wtempimg,'.nii'),{' '},'-out',{' '},txtfwhm,{' '}));
     system(fwhmest_cmd);
 
     % Read outputted txt file with the estimated FWHM in each
@@ -140,16 +135,11 @@ for i=1:size(vols_mod1_spm,1)
     tempfwhmz=tempest(3);
 
     % Very rarely, it has happened that some images get a very high
-    % estimated FWHM, this if condition re-runs the estimation in
+    % estimated FWHM. This if condition re-runs the estimation in
     % that case without the -2difMAD (that seemed to remove the
-    % issue). This is saved in the "errors" database outputted at
+    % issue). This is logged in the "Warnings" database outputted at
     % the end. In this case, the re-run estimation is read into
-    % matlab as starting point for that specific scan
-
-    % The differential smoothing to get any plane to 10 is then
-    % calculated with the formula:
-
-    % filter=sqrt((FWHMtarget*FWHMtarget)-(FWHMestimated*FWHMestimated))
+    % MATLAB as starting point for that specific scan. 
 
     if tempfwhmx>25 || tempfwhmy>25 || tempfwhmz>25 
 
@@ -217,11 +207,13 @@ for i=1:size(vols_mod1_spm,1)
     matlabbatch{1}.spm.spatial.smooth.prefix = 's';
     spm_jobman('run',matlabbatch); clear matlabbatch;
 
-    % Some info is saved to be used later possibly
+    % Save some info
 
     finest=[cellstr(strcat(wtempimg,'.nii')) tempfwhmx tempfwhmy tempfwhmz filtx filty filtz flagre];
     finestT=cell2table(finest);
     dbests=vertcat(dbests, finestT);
+    
+    clear tempimg wtempimg tempfwhmx tempfwhmy tempfwhmz filtx filty filtz flagre fwhmest_cmd_mod
 
 end
         
@@ -250,6 +242,6 @@ writetable(dbwarnT,filename2,'WriteRowNames',false);
 
 end
 
-disp('Done!');
-toc % Print total time needed
+
+fprintf(1,'\nrPOP just finished! Warped and differentially smoothed AC PET images were generated.\nLookup the .csv database to assess FWHM estimations and filters applied.\n\n');
 clear
