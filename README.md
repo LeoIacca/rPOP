@@ -4,8 +4,7 @@ In this repository you will find everything you need to run rPOP.
 ## Licensing
 
 ### rPOP is only distributed for academic/research purposes, it is not intended for any clinical or diagnostic purposes. 
-#### rPOP comes WITHOUT ANY WARRANTY. 
-#### THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
+#### With rPOP, THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
 
 ## Installation
 
@@ -41,6 +40,14 @@ You can start rPOP by first opening MATLAB and then typing in the console:
 - Scans must have been performed with either of three FDA-approved amyloid-PET radiotracers, i.e. 18F-Florbetapir, 18F-Florbetaben or 18F-Flutemetamol.
 
 ### You will be then asked for a master output directory. All logs will be saved here.
+
+### You will be then asked to locate the 3dFWHMx executable 
+
+On a macOS system, after installation you can find the location of 3dFWHMx by typing
+
+> which 3dFWHMx
+
+in your terminal. It should look something like /Users/myusername/abin/3dFWHMx
 
 ### You will be then required to choose an option regarding the setting of the image origin, with two choices:
 
@@ -96,3 +103,7 @@ In the paper, we validated a quantification approach requiring:
 ## Warning to rPOP users!
 
 - Any change in the rPOP methods described above, e.g. changing the target resolution, using different templates, using different ROIs for quantification, automatically invalidated the Centiloid conversion formulas described in the paper. For any of these changes, users will be required to run their own Centiloid pipeline as described in Klunk et al., 2015 Alzheimer's & Dementia
+
+## Replication dataset
+
+A database "ADNIReplicationData.csv" can be found in the rPOP repository and can be used to replicate numbers and estimations generated in the study. The dataset includes N=200 random image data from our N=1518 ADNI dataset (100 per tracer), with included a dictionary file. Users can download the corresponding images from ADNI (publicly available) and test their rPOP setup before proceeding with the analyses. Average binding values and estimated FWHMs should be nearly identical to those available in the database.
