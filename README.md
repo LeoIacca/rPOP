@@ -3,8 +3,7 @@ In this repository you will find everything you need to run rPOP.
 
 ## Licensing
 
-### rPOP is only distributed for academic/research purposes, it is not intended for any clinical or diagnostic purposes. 
-#### With rPOP, THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
+### rPOP is only distributed for academic/research purposes, with NO WARRANTY. rPOP is not intended for any clinical or diagnostic purposes. 
 
 ## Installation
 
