@@ -5,7 +5,7 @@ Step2_ImageID,"ImageID linked to the Step 2 preprocessed image ""Co-registered, 
 avg_ctx_voi_bin,Average binding within the GAAIN ctx voi
 avg_wc_voi_bin,Average binding within the GAAIN wc voi
 NeocorticalSUVR,Ratio between avg ctx/ avg wc binding values
-Centiloids,Converted SUVR based on validate formulas
+Centiloids,Converted SUVR based on validated formulas
 EstimatedFWHMx,AFNI 3dFWHMx estimation on x plane
 EstimatedFWHMy,AFNI 3dFWHMx estimation on y plane
 EstimatedFWHMz,AFNI 3dFWHMx estimation on z plane
