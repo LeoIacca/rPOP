@@ -3,11 +3,10 @@
 %%% Please send comments or questions to Leonardo.Iaccarino@ucsf.edu %%%
 %%% rPOP v1.0 - August 2021 %%%
 
-fprintf(1,'\n\n********** Welcome to rPOP! **********\n');
+fprintf(1,'\n\n********** Welcome to rPOP v1.0 (August 2021) **********\n');
 fprintf(1,'rPOP is dependent on:\n*1. Statistical Parametric Mapping toolbox (SPM, https://www.fil.ion.ucl.ac.uk/spm/software/spm12/)\n*2. AFNI Neuroimaging Suite (https://afni.nimh.nih.gov/)\n*3. MATLAB (https://www.mathworks.com/products/matlab.html)\n');
 fprintf(1,'The origin reset code employed in rPOP is from F. Yamashita and is part of an ac/pc co-registration script \n(parent function available at: http://www.nemotos.net/scripts/acpc_coreg.m)\n');
-fprintf(2,'*** rPOP is only distributed for academic/research purposes, it is not intended for any clinical or diagnostic purposes.\n');
-fprintf(2,'*** With rPOP, THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.\n');
+fprintf(2,'*** rPOP is only distributed for academic/research purposes, with NO WARRANTY. ***\n*** rPOP is not intended for any clinical or diagnostic purposes. ***\n');
 fprintf(2,'Press a key to acknowledge and continue with rPOP:\n');
 pause;
 
@@ -86,7 +85,7 @@ tpopt = input(['\nPlease select a Warping Template Option:' ,...
 
 for i=1:size(vols,1)
 
-    if oropt==2 % Resetting of the origin is required
+    if oropt==2 % Resetting of the origin is required, code by F.Yamashita
       file = deblank(vols(i,:));
       st.vol = spm_vol(file);
       vs = st.vol.mat\eye(4);
