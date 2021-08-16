@@ -3,8 +3,7 @@ In this repository you will find everything you need to run rPOP.
 
 ## Licensing
 
-### rPOP is only distributed for academic/research purposes, it is not intended for any clinical or diagnostic purposes. 
-#### With rPOP, THERE IS NO WARRANTY TO THE ACCURACY OF THE DATA AND ANY INTERPRETATION OR USE.
+### rPOP is only distributed for academic/research purposes, with NO WARRANTY. rPOP is not intended for any clinical or diagnostic purposes. 
 
 ## Installation
 
@@ -115,7 +114,7 @@ Any rPOP user will have the ability to run any quantification approach they pref
 
 In the paper, we validated a quantification approach requiring:
 
-- Extraction of average binding values from the GAAIN volumes of interest, i.e. ctx with whole cerebellum as reference. The ROIs are also redistributed in the GitHUB repo after being resliced to match dimensions of images produced by rPOP. 
+- Extraction of average binding values from the GAAIN 2mm volumes of interest, i.e. ctx with whole cerebellum as reference. The files are readily available at http://www.gaain.org/centiloid-project (direct download link -> https://www.gaaindata.org/data/centiloid/Centiloid_Std_VOI.zip)
 - Calculation of Standardized Uptake Value Ratio (SUVR) with the ctx/wc ratio
 - Conversion to Centiloids using tracer-specific formulas as described in the paper. 
 
