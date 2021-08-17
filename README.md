@@ -5,6 +5,10 @@ In this repository you will find everything you need to run rPOP.
 
 ### rPOP is only distributed for academic/research purposes, with NO WARRANTY. rPOP is not intended for any clinical or diagnostic purposes. 
 
+## Contact
+
+Any comment or Inquiry is welcome. Please contact me at: Leonardo.Iaccarino@ucsf.edu
+
 ## Installation
 
 rPOP has three main dependencies:
