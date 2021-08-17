@@ -25,13 +25,13 @@ rpopath=which('rPOP');
 [popdir,~,~]=spm_fileparts(rpopath);
 tdir=[popdir, '/templates/'];
 
-tfbball=cellstr([tdir,'Template_FBB_all.nii']);
-tfbbpos=cellstr([tdir,'Template_FBB_pos.nii']);
-tfbbneg=cellstr([tdir,'Template_FBB_neg.nii']);
-
 tfbpall=cellstr([tdir,'Template_FBP_all.nii']);
 tfbppos=cellstr([tdir,'Template_FBP_pos.nii']);
 tfbpneg=cellstr([tdir,'Template_FBP_neg.nii']);
+
+tfbball=cellstr([tdir,'Template_FBB_all.nii']);
+tfbbpos=cellstr([tdir,'Template_FBB_pos.nii']);
+tfbbneg=cellstr([tdir,'Template_FBB_neg.nii']);
 
 tfluteall=cellstr([tdir,'Template_FLUTE_all.nii']);
 tflutepos=cellstr([tdir,'Template_FLUTE_pos.nii']);
@@ -41,7 +41,7 @@ warptempl_fbp=vertcat(tfbpall,tfbppos,tfbpneg);
 warptempl_fbb=vertcat(tfbball,tfbbpos,tfbbneg);                                                                     
 warptempl_flute=vertcat(tfluteall,tflutepos,tfluteneg);                                                                     
 
-warptempl_all=vertcat(tfbball,tfbbpos,tfbbneg,tfbpall,tfbppos,tfbpneg,tfluteall,tflutepos,tfluteneg);                                                                     
+warptempl_all=vertcat(tfbpall,tfbppos,tfbpneg,tfbball,tfbbpos,tfbbneg,tfluteall,tflutepos,tfluteneg);                                                                     
 
 % Create empty arrays to store FWHM estimations and warnings/errors, if any
 dbests={};
@@ -49,8 +49,8 @@ dbwarn={};
 
 % Input option for origin resetting
 oropt = input(['\nPlease select an option. Will be applied to all images.' ,...
-        '\n     [1] Do not reset origin',...
-        '\n     [2] Set origin to center of image',...
+        '\n     [1] Set origin to center of image',...
+        '\n     [2] Do not reset origin',...
         '\n     --> ']);
     
     if oropt~=1 && oropt~=2
@@ -61,8 +61,8 @@ oropt = input(['\nPlease select an option. Will be applied to all images.' ,...
 % Input template choice option
 tpopt = input(['\nPlease select a Warping Template Option:' ,...
         '\n     [1] Tracer-independent, use all Templates (Validated Approach)',...
-        '\n     [2] Tracer-specific, use 18F-florbetaben Templates',...
-        '\n     [3] Tracer-specific, use 18F-florbetapir Templates',...
+        '\n     [2] Tracer-specific, use 18F-florbetapir Templates',...
+        '\n     [3] Tracer-specific, use 18F-florbetaben Templates',...
         '\n     [4] Tracer-specific, use 18F-flutemetamol Templates',...
         '\n     --> ']);
     
@@ -74,10 +74,10 @@ tpopt = input(['\nPlease select a Warping Template Option:' ,...
     if tpopt==1 
         warptempl=warptempl_all;
     elseif tpopt==2
-        warptempl=warptempl_fbb;
-    elseif tpopt==3
         warptempl=warptempl_fbp;
     elseif tpopt==3
+        warptempl=warptempl_fbb;
+    elseif tpopt==4
         warptempl=warptempl_flute;
     end
     
@@ -85,7 +85,7 @@ tpopt = input(['\nPlease select a Warping Template Option:' ,...
 
 for i=1:size(vols,1)
 
-    if oropt==2 % Resetting of the origin is required, code by F.Yamashita
+    if oropt==1 % Resetting of the origin is required, code by F.Yamashita
       file = deblank(vols(i,:));
       st.vol = spm_vol(file);
       vs = st.vol.mat\eye(4);
