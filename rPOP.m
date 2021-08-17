@@ -127,7 +127,7 @@ for i=1:size(vols,1)
     fwhmest_cmd=char(strcat(afnifx ,{' '},'-automask -2difMAD',{' '},'-input',{' '}, strcat(wtempimg,'.nii'),{' '},'-out',{' '},txtfwhm,{' '}));
     system(fwhmest_cmd);
 
-    % Read outputted txt file with the estimated FWHM in each
+    % Read output txt file with the estimated FWHM in each
     % plane, preparing the calculation of the differential
     % smoothing
     tempest=importdata(txtfwhm);      
@@ -214,7 +214,7 @@ for i=1:size(vols,1)
     finestT=cell2table(finest);
     dbests=vertcat(dbests, finestT);
     
-    clear tempimg wtempimg tempfwhmx tempfwhmy tempfwhmz filtx filty filtz flagre fwhmest_cmd_mod
+    clear tempimg wtempimg tempfwhmx tempfwhmy tempfwhmz filtx filty filtz flagre fwhmest_cmd_mod txtfwhm txtfwhm_mod
 
 end
         
