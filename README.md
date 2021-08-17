@@ -20,7 +20,7 @@ In MATLAB, add paths to all the subfolders with
 
 > addpath(genpath('/your/path/to/rPOP-master/'))
 
-To double check availability of rPOP in your MATLAN search path, just type:
+To double check availability of rPOP in your MATLAB search path, just type:
 
 > which rPOP
 
@@ -38,7 +38,7 @@ A disclaimer will pop-up with some info about rPOP. Press any key to acknowledge
 
 ### You will be first asked to select PET images to process. Images must meet the requirements below
 
-- NIfTI files must be 3D. 4D Scans are not supported.
+- NIfTI files must be 3D. 4D files are not supported.
 - Scans must be Attenuation Corrected
 - Scans must have been performed with either of three FDA-approved amyloid-PET radiotracers, i.e. 18F-Florbetapir, 18F-Florbetaben or 18F-Flutemetamol.
 
@@ -50,7 +50,7 @@ On a macOS system, after installation you can find the location of 3dFWHMx by ty
 
 > which 3dFWHMx
 
-in your terminal. It should look something like 
+in your MAC OS terminal. It should look something like 
 
 > /Users/myusername/abin/3dFWHMx
 
@@ -63,26 +63,26 @@ Your choice will be applied to all the images you inputed in the previous step.
 
 The code performing the reset of the origin is from <b>F. Yamashita</b> and is part of an ac/pc co-registration script (parent function available at: http://www.nemotos.net/scripts/acpc_coreg.m)
 
-### You will be then required to choose a Warping Templates option four choices:
+### You will be then required to choose a Warping Templates option, with four choices:
 
 - Tracer-independent, use all Templates (Validated Approach)
-- Tracer-specific, use 18F-Florbetaben Templates
-- Tracer-specific, use 18F-Florbetapir Templates
-- Tracer-specific, use 18F-Flutemetamol Templates
+- Tracer-specific, use 18F-florbetaben Templates
+- Tracer-specific, use 18F-florbetapir Templates
+- Tracer-specific, use 18F-flutemetamol Templates
 
 rPOP performance and Centiloids conversion formulas as described in Iaccarino et al., have been validated using the first option (Tracer-independent).
-The user will be able to choose also tracer-specific templates options. The warping and differential smoothing are expected to be very similar, but the user will have to perform their own cross-validation to obtain Centiloid conversion formulas. 
+The user will be able to choose also tracer-specific options. The warping and differential smoothing are expected to be very similar, but the user will have to perform their own cross-validation to obtain Centiloid conversion formulas. 
 
-Details on template generation are available in Iaccarino et al., and templates can also be viewed at Neurovault: https://neurovault.org/collections/CPHVNXDQ/
+Details on template generation are available in Iaccarino et al., and templates can be found in this repository and can as well be inspected at Neurovault: https://neurovault.org/collections/CPHVNXDQ/
 
 ### Differential smoothing in rPOP
 
-Details on rPOP differential smoothing approach can be found in Iaccarino et al.. rPOP employs an AFNI function, 3dFWHMx, to estimate FWHM of the warped 3D PET scan provided as input. The estimation is performed with the following flags:
+Details on rPOP differential smoothing approach can be found in Iaccarino et al. rPOP employs an AFNI function, 3dFWHMx, to estimate FWHM of the warped 3D PET scan provided as input. The estimation is performed with the following flags:
 
 - automask: Generating brain mask automatically to select voxels used for the FWHM estimation
 - 2difMAD: Used to estimate FWHM in the 3D file and take into account intrinsic structure (see details in the function documentation)
 
-Using the -2difMAD option highly increased the accuracy of the 3dFWHMx FWHM estimation when compared to known effective resolution. When running, it is likely 2dFWHMx will also display an error like:
+Using the -2difMAD option highly increased the accuracy of the 3dFWHMx FWHM estimation when compared to known effective resolution (validated with both a local and and an ADNI dataset). When running, it is likely 3dFWHMx will also display an error like:
 
 > ERROR: largest ACF found is 0.518093 -- too big for model fit!
 
@@ -92,27 +92,27 @@ The function will nevertheless output the txt file with the appropriate FWHM est
 
 ## rPOP Output
 
-### rPOP will provide, for any given inputed image (e.g. 'myscan.nii'):
+### rPOP will provide, for any given input image (e.g. 'myscan.nii'):
 - myscan_sn.mat - Storage of the spatial transformation parameters estimated by SPM12
 - wmyscan.nii - Non-linearly warped version of the image
 - wmyscan_automask.txt - Results of the Full-Width at Half Maximum (FWHM) estimation by AFNI 3dFWHMx on the warped image
-- swmyscan.nii - Smoothed, non-linearly warped version of the image. Scan is brought to final 10mm3 as default. 
+- swmyscan.nii - Smoothed, non-linearly warped version of the image. Scan is brought to final ~10mm3 as default (see text for details). 
 
 ### Other outputs:
-- A database, with naming convention rPOP_mm-dd-yyyy_HH-MM-SS.csv, storing for each inputed image the calculated FWHM and the estimated filter to be applied to reach 10mm3
-- Optional - a Warning database with naming convention rPOPWarnings_mm-dd-yyyy_HH-MM-SS.csv will be produced in case at least one image had an estimated FWHM resolution >25 on any of the planes. In that case 3dFWHMx is re-run without the -2difMAD flag, which in some instances helped. In that case, a flag is also added to the main database described above. This instance is very rare and only happened during first rPOP iterations, never happened in the validation datasets.
+- A database, with naming convention rPOP_mm-dd-yyyy_HH-MM-SS.csv, storing for each inputed image the calculated FWHM and the estimated filter applied to reach ~10mm3
+- Optional - a Warning database with naming convention rPOPWarnings_mm-dd-yyyy_HH-MM-SS.csv will be produced in case at least one image had an estimated FWHM resolution >25 on any of the planes. In that case 3dFWHMx is re-run without the -2difMAD flag, which in some instances helped. In that case, a flag is also added to the main database described above. This instance is very rare and only happened during first rPOP iterations, never happened in the validation datasets reported in the manuscript.
 
 ## QC 
 
 ### The user is required to run essentially two main quality control checks with their software/method of choice:
 - Qualitative evaluation of the warping. Size, shape(s), orientation of the w and sw images must match MNI standard space. 
-- Qualitative evaluation of goodness of fit of the ROIs which will be used for quantification (Extremely important). 
+- Qualitative evaluation of goodness of fit of the ROIs which will be used for quantification (Extremely important!). 
 
 ## Quantification
 
-Any rPOP user will have the ability to run any quantification approach they prefer on either the w or the sw images as required. 
+rPOP users will have the ability to run any quantification approach they prefer on either the w or the sw images as required. 
 
-In the paper, we validated a quantification approach requiring:
+In the paper, we validated a quantification approach using smoothed and warped images and requiring:
 
 - Extraction of average binding values from the GAAIN 2mm volumes of interest, i.e. ctx with whole cerebellum as reference. The files are readily available at http://www.gaain.org/centiloid-project (direct download link -> https://www.gaaindata.org/data/centiloid/Centiloid_Std_VOI.zip)
 - Calculation of Standardized Uptake Value Ratio (SUVR) with the ctx/wc ratio
@@ -120,7 +120,7 @@ In the paper, we validated a quantification approach requiring:
 
 ## Warning to rPOP users!
 
-- Any change in the rPOP methods described above, e.g. changing the target resolution, using different templates, using different ROIs for quantification, automatically invalidated the Centiloid conversion formulas described in the paper. For any of these changes, users will be required to run their own Centiloid pipeline as described in Klunk et al., 2015 Alzheimer's & Dementia
+- Any change in the rPOP methods described above, e.g. changing the target resolution, using different templates, using different ROIs for quantification, automatically invalidate the Centiloid conversion formulas described in the paper. For any of these changes, users will be required to run their own Centiloid pipeline cross-validation as described in Klunk et al., 2015 Alzheimer's & Dementia
 
 ## Replication dataset
 
