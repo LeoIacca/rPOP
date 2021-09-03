@@ -214,7 +214,7 @@ for i=1:size(vols,1)
     finestT=cell2table(finest);
     dbests=vertcat(dbests, finestT);
     
-    clear tempimg wtempimg tempfwhmx tempfwhmy tempfwhmz filtx filty filtz flagre fwhmest_cmd_mod txtfwhm txtfwhm_mod
+    clear file tempimg wtempimg tempfwhmx tempfwhmy tempfwhmz filtx filty filtz flagre fwhmest_cmd_mod txtfwhm txtfwhm_mod
 
 end
         
