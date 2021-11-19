@@ -149,7 +149,7 @@ for i=1:size(vols,1)
     dbwarn=vertcat(dbwarn,warn);
 
     txtfwhm_mod=strcat(wtempimg,'_automask_mod.txt');
-    fwhmest_cmd_mod=char(strcat(afnifx ,{' '},'-automask',{' '},'-input',{' '}, strcat(wtempimg,'.nii'),{' '},'-out',{' '},txtfwhm,{' '}));
+    fwhmest_cmd_mod=char(strcat(afnifx ,{' '},'-automask',{' '},'-input',{' '}, strcat(wtempimg,'.nii'),{' '},'-out',{' '},txtfwhm_mod,{' '}));
     system(fwhmest_cmd_mod);
     tempest_mod=importdata(txtfwhm_mod);
 
