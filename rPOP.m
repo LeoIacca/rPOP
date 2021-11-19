@@ -56,7 +56,7 @@ oropt = input(['\nPlease select an option. Will be applied to all images.' ,...
     if oropt~=1 && oropt~=2
        clear;
        error('Origin option selection was invalid. Must be 1 or 2. Please re-run rPOP.'); 
-    end
+    end % end if condition QC user input for origin reset
     
 % Input template choice option
 tpopt = input(['\nPlease select a Warping Template Option:' ,...
@@ -69,7 +69,7 @@ tpopt = input(['\nPlease select a Warping Template Option:' ,...
     if tpopt~=1 && tpopt~=2 && tpopt~=3 && tpopt~=4
        clear;
        error('Template option selection was invalid. Must be 1, 2, 3 or 4. Please re-run rPOP.'); 
-    end
+    end % end if condition QC user input for template approach
     
     if tpopt==1 
         warptempl=warptempl_all;
@@ -79,7 +79,7 @@ tpopt = input(['\nPlease select a Warping Template Option:' ,...
         warptempl=warptempl_fbb;
     elseif tpopt==4
         warptempl=warptempl_flute;
-    end
+    end % end if condition selection of templates based on user input
     
 % Process the PET scans serially
 
@@ -91,7 +91,7 @@ for i=1:size(vols,1)
       vs = st.vol.mat\eye(4);
       vs(1:3,4) = (st.vol.dim+1)/2;
       spm_get_space(st.vol.fname,inv(vs));
-    end
+    end % end if condition origin of the image has to be reset automatically
 
    % Warp the image through the Old Normalization tool in SPM12
    % Bounding box size increased
@@ -146,6 +146,7 @@ for i=1:size(vols,1)
 
     fprintf(2,'******\nWarning! FWHM estimation was very high for %s, i.e. x=%s, y=%s, z=%s.\n3dFWHMx was re-run without the -2difMAD flag\n******\n',f,num2str(tempfwhmx),num2str(tempfwhmy),num2str(tempfwhmz));
     warn=strcat('Warning! FWHM estimation was very high for',{' '},f,{' '},'i.e. x=',num2str(tempfwhmx),{' '},'y=',num2str(tempfwhmy),{' '},'z=',num2str(tempfwhmz));
+    warn=cell2table(warn);
     dbwarn=vertcat(dbwarn,warn);
 
     txtfwhm_mod=strcat(wtempimg,'_automask_mod.txt');
@@ -161,20 +162,21 @@ for i=1:size(vols,1)
                 filtx=0;     
             else
                 filtx=sqrt((10*10)+(0*0)-(tempfwhmx_mod*tempfwhmx_mod));
-            end
+             end % end if condition FWHM estimation on the x plane is >10
+            
             if tempfwhmy_mod>10   
                 filty=0;     
             else
                 filty=sqrt((10*10)+(0*0)-(tempfwhmy_mod*tempfwhmy_mod));
-            end
+            end % end if condition FWHM estimation on the y plane is >10
+            
             if tempfwhmz_mod>10   
                 filtz=0;     
             else       
                 filtz=sqrt((10*10)+(0*0)-(tempfwhmz_mod*tempfwhmz_mod));
-            end
+            end % end if condition FWHM estimation on the z plane is >10
 
             flagre='1';
-
 
     else
 
@@ -182,21 +184,23 @@ for i=1:size(vols,1)
                 filtx=0;     
             else
                 filtx=sqrt((10*10)+(0*0)-(tempfwhmx*tempfwhmx));
-            end
+            end % end if condition FWHM estimation on the x plane is >10
+            
             if tempfwhmy>10   
                 filty=0;     
             else
                 filty=sqrt((10*10)+(0*0)-(tempfwhmy*tempfwhmy));
-            end
+            end % end if condition FWHM estimation on the y plane is >10
+            
             if tempfwhmz>10   
                 filtz=0;     
             else       
                 filtz=sqrt((10*10)+(0*0)-(tempfwhmz*tempfwhmz));
-            end
+            end % end if condition FWHM estimation on the z plane is >10
 
             flagre='0';
 
-    end
+    end % end if condition FWHM estimation was very high on any plane
 
     % Image is smoothed based on the calculated filters
 
@@ -214,9 +218,9 @@ for i=1:size(vols,1)
     finestT=cell2table(finest);
     dbests=vertcat(dbests, finestT);
     
-    clear file tempimg wtempimg tempfwhmx tempfwhmy tempfwhmz filtx filty filtz flagre fwhmest_cmd_mod txtfwhm txtfwhm_mod
+    clear file tempimg wtempimg tempfwhmx tempfwhmy tempfwhmz filtx filty filtz flagre fwhmest_cmd_mod txtfwhm txtfwhm_mod warn
 
-end
+end % end for loop for each input image
         
 % Database cleaning/renaming of variables
 dbests.Properties.VariableNames(1) = cellstr('Filename');
@@ -233,16 +237,18 @@ filename = strcat(mdir,sprintf('/rPOP_%s.csv', datestr(now,'mm-dd-yyyy_HH-MM-SS'
 writetable(dbests,filename,'WriteRowNames',false);
 
 % In case there was at least one error/warning, print the error database
+
 if size(dbwarn,1)>0
 
     fprintf(2,'*****\nThere was at least 1 warning. A log was saved, check that out!\n*****\n');
-    dbwarnT.Properties.VariableNames(1) = cellstr(strcat('Warning'));
+    dbwarn.Properties.VariableNames(1) = cellstr(strcat('Warning'));
 
 filename2 = strcat(mdir,sprintf('/rPOPWarnings_%s.csv', datestr(now,'mm-dd-yyyy_HH-MM-SS')));
-writetable(dbwarnT,filename2,'WriteRowNames',false);
+writetable(dbwarn,filename2,'WriteRowNames',false);
 
-end
+end % end if condition at least one scan had a warning due to FWHM over-estimation
 
 
 fprintf(1,'\nrPOP just finished! Warped and differentially smoothed AC PET images were generated.\nLookup the .csv database to assess FWHM estimations and filters applied.\n\n');
 clear
+
