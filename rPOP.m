@@ -177,7 +177,13 @@ for i=1:size(vols,1)
             end % end if condition FWHM estimation on the z plane is >10
 
             flagre='1';
-
+            
+            % store the newly estimated FWHMs for the main output csv
+            
+            tempfwhmx=tempfwhmx_mod;
+            tempfwhmy=tempfwhmy_mod;
+            tempfwhmz=tempfwhmz_mod;
+            
     else
 
             if tempfwhmx>10   
@@ -218,7 +224,7 @@ for i=1:size(vols,1)
     finestT=cell2table(finest);
     dbests=vertcat(dbests, finestT);
     
-    clear file tempimg wtempimg tempfwhmx tempfwhmy tempfwhmz filtx filty filtz flagre fwhmest_cmd_mod txtfwhm txtfwhm_mod warn
+    clear file tempimg wtempimg tempfwhmx tempfwhmy tempfwhmz tempfwhmx_mod tempfwhmy_mod tempfwhmz_mod filtx filty filtz flagre fwhmest_cmd_mod txtfwhm txtfwhm_mod warn
 
 end % end for loop for each input image
         
