@@ -1,5 +1,6 @@
 %%% Welcome to rPOP! %%%
-%%% See documentation on Github -> %%%
+%%% See documentation on Github at https://github.com/LeoIacca/rPOP %%%
+%%% Please cite https://www.sciencedirect.com/science/article/pii/S1053811921010478 and all additional software references if you use rPOP! %%%
 %%% Please send comments or questions to Leonardo.Iaccarino@ucsf.edu %%%
 %%% rPOP v1.0 - August 2021 %%%
 
