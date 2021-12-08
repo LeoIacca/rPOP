@@ -5,6 +5,10 @@ In this repository you will find everything you need to run rPOP.
 
 ### rPOP is only distributed for academic/research purposes, with NO WARRANTY. rPOP is not intended for any clinical or diagnostic purposes. 
 
+## Validation and Reference
+
+rPOP validation is available at https://www.sciencedirect.com/science/article/pii/S1053811921010478 (Iaccarino et al., 2021 NeuroImage)
+
 ## Contact
 
 Any comment or Inquiry is welcome. Please contact me at: Leonardo.Iaccarino@ucsf.edu
@@ -74,14 +78,14 @@ The code performing the reset of the origin is from <b>F. Yamashita</b> and is p
 - Tracer-specific, use 18F-florbetapir Templates
 - Tracer-specific, use 18F-flutemetamol Templates
 
-rPOP performance and Centiloids conversion formulas as described in Iaccarino et al., have been validated using the first option (Tracer-independent).
+rPOP performance and Centiloids conversion formulas as described in Iaccarino et al. 2021, have been validated using the first option (Tracer-independent).
 The user will be able to choose also tracer-specific options. The warping and differential smoothing are expected to be very similar, but the user will have to perform their own cross-validation to obtain Centiloid conversion formulas. 
 
-Details on template generation are available in Iaccarino et al., and templates can be found in this repository and can as well be inspected at Neurovault: https://neurovault.org/collections/CPHVNXDQ/
+Details on template generation are available in Iaccarino et al. 2021, and templates can be found in this repository and can as well be inspected at Neurovault: https://neurovault.org/collections/CPHVNXDQ/
 
 ### Differential smoothing in rPOP
 
-Details on rPOP differential smoothing approach can be found in Iaccarino et al. rPOP employs an AFNI function, 3dFWHMx, to estimate FWHM of the warped 3D PET scan provided as input. The estimation is performed with the following flags:
+Details on rPOP differential smoothing approach can be found in Iaccarino et al. 2021. rPOP employs an AFNI function, 3dFWHMx, to estimate FWHM of the warped 3D PET scan provided as input. The estimation is performed with the following flags:
 
 - automask: Generating brain mask automatically to select voxels used for the FWHM estimation
 - 2difMAD: Used to estimate FWHM in the 3D file and take into account intrinsic structure (see details in the function documentation)
