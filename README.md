@@ -5,7 +5,7 @@ In this repository you will find everything you need to run rPOP.
 
 ### rPOP is only distributed for academic/research purposes, with NO WARRANTY. rPOP is not intended for any clinical or diagnostic purposes. 
 
-## Validation and Reference
+## Validation
 
 rPOP validation is available at https://www.sciencedirect.com/science/article/pii/S1053811921010478 (Iaccarino et al., 2021 NeuroImage)
 
