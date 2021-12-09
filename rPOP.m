@@ -225,7 +225,7 @@ for i=1:size(vols,1)
     finestT=cell2table(finest);
     dbests=vertcat(dbests, finestT);
     
-    clear file tempimg wtempimg tempfwhmx tempfwhmy tempfwhmz tempfwhmx_mod tempfwhmy_mod tempfwhmz_mod filtx filty filtz flagre fwhmest_cmd_mod txtfwhm txtfwhm_mod warn
+    clear p f file tempimg wtempimg tempest tempfwhmx tempfwhmy tempfwhmz tempest_mod tempfwhmx_mod tempfwhmy_mod tempfwhmz_mod filtx filty filtz flagre fwhmest_cmd fwhmest_cmd_mod txtfwhm txtfwhm_mod warn finest finestT
 
 end % end for loop for each input image
         
