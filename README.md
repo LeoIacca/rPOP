@@ -5,6 +5,17 @@ In this repository you will find everything you need to run rPOP.
 
 ### rPOP is only distributed for academic/research purposes, with NO WARRANTY. rPOP is not intended for any clinical or diagnostic purposes. 
 
+Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+
 ## Validation
 
 rPOP validation is available at https://www.sciencedirect.com/science/article/pii/S1053811921010478 (Iaccarino et al., 2021 NeuroImage)
